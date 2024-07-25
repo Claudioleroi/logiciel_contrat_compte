@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QTabWidget, QVBoxLayout, QWidget
 from ui.home import HomeTab
 from ui.contracts import ContractTab
 from ui.accounts import AccountsTab
+from ui.facture import FactureTab
 
 class MainApp(QWidget):
     def __init__(self):
@@ -19,7 +20,8 @@ class MainApp(QWidget):
         self.tabs = QTabWidget()
         self.tabs.addTab(self.home_tab, "Accueil")
         self.tabs.addTab(ContractTab(self.home_tab), "Contrats")
-        self.tabs.addTab(AccountsTab(), "Tenue des Comptes")
+        self.tabs.addTab(FactureTab(), "Facture")
+        self.tabs.addTab(AccountsTab(), "Traitement")
 
         layout.addWidget(self.tabs)
         self.setLayout(layout)
