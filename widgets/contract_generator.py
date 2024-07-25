@@ -161,8 +161,18 @@ class ContractGenerator(QWidget):
 
             # Preview the generated contract
             self.preview_contract()
+
+            # Clear form fields after generating the contract
+            self.clear_form_fields()
         except Exception as e:
             QMessageBox.critical(self, 'Error', f"An error occurred: {e}")
+
+    def clear_form_fields(self):
+        self.client_name.clear()
+        self.vendor_name.clear()
+        self.amount.clear()
+        self.description1.clear()
+        self.description2.clear()
 
     def preview_contract(self):
         if not self.output_path:
