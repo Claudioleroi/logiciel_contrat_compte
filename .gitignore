@@ -5,6 +5,7 @@ nouveau_contrat/
 *.docx
 
 data/*
-!data/__init__py
+!data/__init__.py
+!data/database.py
 
  ui/__pycache__/
