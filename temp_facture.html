@@ -1,0 +1,49 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Editable Table with Formulas</title>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable@latest/dist/handsontable.full.min.css">
+            <style>
+                #hot {
+                    width: 100%;
+                    height: 400px;
+                }
+                .button-container {
+                    margin: 20px 0;
+                }
+            </style>
+        </head>
+        <body>
+            <div id="hot"></div>
+
+            <script src="https://cdn.jsdelivr.net/npm/handsontable@latest/dist/handsontable.full.min.js"></script>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    var data = [
+                        ["", "A", "B", "C"],
+                        ["1", 5, 3, "=B2+C2"],
+                        ["2", 10, 7, "=B3+C3"],
+                        ["3", "Sum", "=SUM(B2:B3)", "=SUM(C2:C3)"]
+                    ];
+
+                    var container = document.getElementById('hot');
+                    var hot = new Handsontable(container, {
+                        data: data,
+                        colHeaders: true,
+                        rowHeaders: true,
+                        contextMenu: true,
+                        formulas: true,
+                        licenseKey: 'non-commercial-and-evaluation'
+                    });
+                });
+
+                function printTable() {
+                    window.print();
+                }
+            </script>
+        </body>
+        </html>
+        

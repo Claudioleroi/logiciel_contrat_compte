@@ -4,7 +4,7 @@ from ui.home import HomeTab
 from ui.contracts import ContractTab
 from ui.accounts import AccountsTab
 from ui.facture import FactureTab
-
+from ui.traitement import TraitementTab
 class MainApp(QWidget):
     def __init__(self):
         super().__init__()
@@ -21,8 +21,8 @@ class MainApp(QWidget):
         self.tabs.addTab(self.home_tab, "Accueil")
         self.tabs.addTab(ContractTab(self.home_tab), "Contrats")
         self.tabs.addTab(FactureTab(), "Facture")
-        self.tabs.addTab(AccountsTab(), "Traitement")
-
+        self.tabs.addTab(TraitementTab(), "Traitement")
+        self.tabs.addTab(AccountsTab(), "Comptes")
         layout.addWidget(self.tabs)
         self.setLayout(layout)
         self.setWindowTitle('Contract Management System')

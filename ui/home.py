@@ -1,4 +1,8 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QListWidget
+import sys
+from PyQt5.QtWidgets import (
+    QWidget, QVBoxLayout, QHBoxLayout, QTableWidget, QTableWidgetItem, QPushButton, QFileDialog, QMessageBox
+)
+from openpyxl import Workbook
 import data.database as database
 
 class HomeTab(QWidget):
@@ -9,20 +13,94 @@ class HomeTab(QWidget):
     def init_ui(self):
         layout = QVBoxLayout()
 
-        # Number of signed contracts
-        self.contract_count_label = QLabel()
-        layout.addWidget(self.contract_count_label)
+        # Create buttons layout
+        button_layout = QHBoxLayout()
+        
+        # Create Export button
+        self.export_button = QPushButton("Export to Excel")
+        self.export_button.clicked.connect(self.export_to_excel)
+        button_layout.addWidget(self.export_button)
 
-        # Recent contracts list
-        self.recent_contracts_list = QListWidget()
-        layout.addWidget(self.recent_contracts_list)
+        # Create Delete Selected button
+        self.delete_button = QPushButton("Delete Selected")
+        self.delete_button.setEnabled(False)  # Initially disabled
+        self.delete_button.clicked.connect(self.delete_selected_row)
+        button_layout.addWidget(self.delete_button)
+
+        # Add buttons layout to main layout
+        layout.addLayout(button_layout)
+
+        # Create table for displaying data
+        self.table = QTableWidget()
+        self.table.setColumnCount(6)
+        self.table.setHorizontalHeaderLabels([
+            "ID", "Contract Name", "Author", "Recipient", "Date Signed", "Amount"
+        ])
+        self.table.setSelectionBehavior(QTableWidget.SelectRows)
+        self.table.setEditTriggers(QTableWidget.NoEditTriggers)  # Disable cell editing
+        self.table.selectionModel().selectionChanged.connect(self.update_delete_button_state)  # Connect selection change
+        layout.addWidget(self.table)
 
         self.setLayout(layout)
         self.update_home_tab()
 
     def update_home_tab(self):
-        self.contract_count_label.setText(f"Number of signed contracts: {database.get_contract_count()}")
-        self.recent_contracts_list.clear()
+        # Update table with all contracts
+        self.update_table()
+
+    def update_table(self):
         contracts = database.get_contracts()
-        for contract in contracts[:10]:
-            self.recent_contracts_list.addItem(f"ID: {contract[0]} - {contract[1]} signed by {contract[2]} on {contract[6]}")
+        self.table.setRowCount(len(contracts))
+
+        for row_idx, contract in enumerate(contracts):
+            for col_idx, item in enumerate(contract):
+                self.table.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+
+    def export_to_excel(self):
+        contracts = database.get_contracts()
+        if not contracts:
+            QMessageBox.warning(self, 'No Data', 'No data to export.')
+            return
+
+        # Create a workbook and add a sheet
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Contracts"
+
+        # Add headers
+        headers = [
+            "ID", "Contract Name", "Author", "Recipient", "Date Signed", "Amount"
+        ]
+        ws.append(headers)
+
+        # Add rows
+        for contract in contracts:
+            ws.append(contract)
+
+        # Save the workbook
+        file_name, _ = QFileDialog.getSaveFileName(self, "Save Excel File", "", "Excel Files (*.xlsx)")
+        if file_name:
+            wb.save(file_name)
+            QMessageBox.information(self, 'Export Successful', f'Data exported to: {file_name}')
+
+    def delete_selected_row(self):
+        selected_rows = self.table.selectionModel().selectedRows()
+        if not selected_rows:
+            QMessageBox.warning(self, 'No Selection', 'Please select a row to delete.')
+            return
+
+        for row in selected_rows:
+            row_id = self.table.item(row.row(), 0).text()  # ID is in the first column
+            reply = QMessageBox.question(self, 'Confirm Delete', 
+                                         f'Are you sure you want to delete the row with ID {row_id}?',
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                database.delete_contract(row_id)
+                self.update_table()
+                QMessageBox.information(self, 'Success', 'Row deleted successfully!')
+            else:
+                QMessageBox.information(self, 'Cancelled', 'Deletion cancelled.')
+
+    def update_delete_button_state(self):
+        selected_rows = self.table.selectionModel().selectedRows()
+        self.delete_button.setEnabled(bool(selected_rows))  # Enable if any row is selected
