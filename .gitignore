@@ -1,0 +1,10 @@
+.venv/
+
+
+nouveau_contrat/
+*.docx
+
+data/*
+!data/__init__py
+
+ ui/__pycache__/

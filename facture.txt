@@ -1,0 +1,19 @@
+
+        Bienvenu Chez Super Marché Ousmane Ndome
+        
+        Numéro Facture : 9801
+        Nom Client : claude
+        Téléphone : 066280228
+        Email : @gmail.com
+        
+        Produits
+        ***********************************************************
+        pain - 1 x 1500.00 = 1500.00
+sac - 1 x 2000.00 = 2000.00
+
+        ***********************************************************
+        
+        Total Brut : 3500.00
+        Taxe : 35.00
+        Total Net : 3535.00
+        

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Table</title>
+    <link rel="stylesheet" href="https://handsontable.com/docs/7.4.2/vendors/handsontable.full.min.css">
+    <script src="https://handsontable.com/docs/7.4.2/vendors/handsontable.full.min.js"></script>
+    <style>
+        #example {
+            color: #000;
+            width: 600px;
+            height: 300px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="example"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var container = document.getElementById('example');
+            var hot = new Handsontable(container, {
+                data: [
+                    ["", "A", "B", "Result"],
+                    [1, 5, 3, "=A2+B2"],
+                    [2, 10, 7, "=A3+B3"]
+                ],
+                colHeaders: true,
+                rowHeaders: true,
+                contextMenu: true,
+                formulas: true,
+                licenseKey: 'non-commercial-and-evaluation'
+            });
+        });
+    </script>
+</body>
+</html>
+
