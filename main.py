@@ -26,11 +26,11 @@ class MainApp(QMainWindow):
         self.toolbar = QToolBar("Barre d'outils principale")
         self.addToolBar(self.toolbar)
 
-        # Ajouter des actions à la barre d'outils
-        self.init_toolbar()
-
         # Créer les onglets principaux
         self.tabs = QTabWidget()
+        self.tabs.setTabPosition(QTabWidget.North)  # Positionner les onglets en haut
+        self.tabs.setMovable(False)  # Les onglets ne sont pas déplaçables
+
         self.home_tab = HomeTab()
 
         # Ajouter les onglets
@@ -51,7 +51,7 @@ class MainApp(QMainWindow):
                 color: blue;
             }
             QVBoxLayout {
-                background-color: #B2D2B2;
+                background-color: #fff;
             }
             QLabel {
                 font-size: 18px;
@@ -65,33 +65,37 @@ class MainApp(QMainWindow):
             QPushButton:hover {
                 background-color: #0056b3;
             }
-            QTabWidget::pane {
-                border-top: 1px solid #C2C7CB;
-                background-color: #F0F0F0; /* Couleur de fond pour le panneau d'onglets */
+            QTabWidget::pane { 
+                border: px solid #0056b3; /* Supprimer la bordure autour du ruban */
+            }
+            QTabBar {
+                background: #B2D2B2; /* Couleur de fond de la barre d'onglets (orange) */
+                border: none;
+                alignment: center; /* Aligner les onglets au centre */
             }
             QTabBar::tab {
-                background-color: #4CAF50; /* Couleur de fond des onglets (vert) */
+                background-color: #B2D2B2; /* Couleur de fond des onglets (orange) */
                 color: white; /* Couleur du texte des onglets */
-                min-width: 100px; /* Largeur minimale des onglets */
+                min-width: 120px; /* Largeur minimale des onglets */
                 padding: 10px; /* Padding à l'intérieur des onglets */
-                margin-right: 2px; /* Espacement entre les onglets */
-                border: 1px solid #4CAF50; /* Bordure pour chaque onglet */
+                margin-right: 0px; /* Pas d'espacement entre les onglets */
+                border: 1px solid #B2D2B2; /* Bordure pour chaque onglet (même couleur que le ruban) */
                 border-top-left-radius: 5px; /* Coins arrondis pour le haut gauche */
                 border-top-right-radius: 5px; /* Coins arrondis pour le haut droit */
             }
             QTabBar::tab:selected {
                 background-color: white; /* Couleur de fond pour l'onglet sélectionné (blanc) */
-                color: #4CAF50; /* Couleur du texte pour l'onglet sélectionné */
-                border: 1px solid #4CAF50; /* Bordure verte pour l'onglet sélectionné */
+                color: #B2D2B2; /* Couleur du texte pour l'onglet sélectionné (orange) */
+                border: 1px solid #B2D2B2; /* Bordure orange pour l'onglet sélectionné */
                 border-bottom: 1px solid white; /* Supprimer la bordure inférieure pour l'onglet sélectionné */
                 border-top-left-radius: 5px; /* Garder les coins arrondis */
                 border-top-right-radius: 5px; /* Garder les coins arrondis */
             }
             QTabBar::tab:hover {
-                background-color: #45A049; /* Couleur de fond pour les onglets au survol */
+                background-color: #FF8C00; /* Couleur de fond pour les onglets au survol (orange foncé) */
             }
             QToolBar {
-                background: #eaeaea;
+                background: #B2D2B2; /* Couleur de fond de la barre d'outils */
                 spacing: 10px;
             }
             QToolBar QToolButton {

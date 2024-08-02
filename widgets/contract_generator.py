@@ -4,7 +4,7 @@ import datetime
 import shutil
 from pathlib import Path
 from PyQt5.QtWidgets import (
-    QWidget, QFormLayout, QLineEdit, QPushButton, QFileDialog, QMessageBox, QTextBrowser, QVBoxLayout
+    QWidget, QFormLayout, QLineEdit, QPushButton, QFileDialog, QMessageBox, QTextBrowser, QHBoxLayout
 )
 from PyQt5.QtCore import pyqtSignal
 from docxtpl import DocxTemplate
@@ -21,7 +21,7 @@ class ContractGenerator(QWidget):
 
     def init_ui(self):
         # Define layout
-        layout = QVBoxLayout()
+        layout = QHBoxLayout()
 
         # Create a form layout for inputs
         form_layout = QFormLayout()
@@ -69,7 +69,6 @@ class ContractGenerator(QWidget):
 
         self.setLayout(layout)
         self.setWindowTitle('Contract Generator')
-        self.resize(800, 600)  # Set the window size (width, height)
 
         # Initialize template path and output path
         self.template_path = None
